@@ -2380,7 +2380,7 @@ Vimeo.nativeSourceHandler.dispose = function () {};
 Vimeo.registerSourceHandler(Vimeo.nativeSourceHandler);
 
 Component.registerComponent('Vimeo', Vimeo);
-//Older versions of VJS5 doesn't have the registerTech function
+// Older versions of VJS5 doesn't have the registerTech function
 if (typeof Tech.registerTech !== 'undefined') {
   Tech.registerTech('Vimeo', Vimeo);
 } else {
