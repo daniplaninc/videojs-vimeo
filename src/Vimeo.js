@@ -124,10 +124,14 @@ class Vimeo extends Tech {
       }
     };
 
-    this._player.getCurrentTime().then(time => state.progress.seconds = time);
-    this._player.getDuration().then(time => state.progress.duration = time);
-    this._player.getPaused().then(paused => state.playing = !paused);
-    this._player.getVolume().then(volume => state.volume = volume);
+    this._player.getCurrentTime()
+      .then(time => state.progress.seconds = time);
+    this._player.getDuration()
+      .then(time => state.progress.duration = time);
+    this._player.getPaused()
+      .then(paused => state.playing = !paused);
+    this._player.getVolume()
+      .then(volume => state.volume = volume);
   }
 
   createEl() {
@@ -214,7 +218,7 @@ class Vimeo extends Tech {
 
 Vimeo.prototype.featuresTimeupdateEvents = true;
 
-Vimeo.isSupported = function() {
+Vimeo.isSupported = function () {
   return true;
 };
 
@@ -228,7 +232,7 @@ Vimeo.nativeSourceHandler = {};
  * @param  {String} type    The mimetype to check
  * @return {String}         'maybe', or '' (empty string)
  */
-Vimeo.nativeSourceHandler.canPlayType = function(source) {
+Vimeo.nativeSourceHandler.canPlayType = function (source) {
   if (source === 'video/vimeo') {
     return 'maybe';
   }
@@ -243,7 +247,7 @@ Vimeo.nativeSourceHandler.canPlayType = function(source) {
  * @return {String}         'maybe', or '' (empty string)
  * @note: Copied over from YouTube — not sure this is relevant
  */
-Vimeo.nativeSourceHandler.canHandleSource = function(source) {
+Vimeo.nativeSourceHandler.canHandleSource = function (source) {
   if (source.type) {
     return Vimeo.nativeSourceHandler.canPlayType(source.type);
   } else if (source.src) {
@@ -254,17 +258,22 @@ Vimeo.nativeSourceHandler.canHandleSource = function(source) {
 };
 
 // @note: Copied over from YouTube — not sure this is relevant
-Vimeo.nativeSourceHandler.handleSource = function(source, tech) {
+Vimeo.nativeSourceHandler.handleSource = function (source, tech) {
   tech.src(source.src);
 };
 
 // @note: Copied over from YouTube — not sure this is relevant
-Vimeo.nativeSourceHandler.dispose = function() { };
+Vimeo.nativeSourceHandler.dispose = function () {};
 
 Vimeo.registerSourceHandler(Vimeo.nativeSourceHandler);
 
 Component.registerComponent('Vimeo', Vimeo);
-Tech.registerTech('Vimeo', Vimeo);
+//Older versions of VJS5 doesn't have the registerTech function
+if (typeof Tech.registerTech !== 'undefined') {
+  Tech.registerTech('Vimeo', Vimeo);
+} else {
+  Component.registerComponent('Vimeo', Vimeo);
+}
 
 // Include the version number.
 Vimeo.VERSION = '0.0.1';
